@@ -21,6 +21,10 @@ var APP = React.createClass({
     this.socket.on('welcome', this.welcome);
   },
 
+  emit(eventName, payload){
+    this.socket.emit(eventName, payload);
+  },
+
   connect(){
     this.setState({ status: 'connected'});
   },
@@ -37,7 +41,7 @@ var APP = React.createClass({
     return (
       <div>
           <Header title={this.state.title} status={this.state.status} />
-          <RouteHandler {...this.state} />
+          <RouteHandler emit={this.emit} {...this.state} />
       </div>
     );
   }

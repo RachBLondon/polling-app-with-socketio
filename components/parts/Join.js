@@ -4,7 +4,7 @@ var Join = React.createClass({
 
   join(){
     var memberName = React.findDOMNode(this.refs.name).value;
-    alert("TODO: JOIN member" + memberName);
+    this.props.emit('join', { name: memberName });
   },
 
   render (){
