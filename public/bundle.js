@@ -21748,7 +21748,7 @@
 	    return {
 	      status: 'disconnected',
 	      title: '',
-	      dance: 'yes please'
+	      member: {}
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -21756,6 +21756,7 @@
 	    this.socket.on('connect', this.connect);
 	    this.socket.on('disconnect', this.disconnect);
 	    this.socket.on('welcome', this.welcome);
+	    this.socket.on('joined', this.joined);
 	  },
 	  emit: function emit(eventName, payload) {
 	    this.socket.emit(eventName, payload);
@@ -21768,6 +21769,9 @@
 	  },
 	  welcome: function welcome(serverState) {
 	    this.setState({ title: serverState.title });
+	  },
+	  joined: function joined(member) {
+	    this.setState({ member: member });
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -29256,23 +29260,43 @@
 	var Join = __webpack_require__(250);
 
 	var Audience = React.createClass({
-	  displayName: 'Audience',
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        Display,
-	        { 'if': this.props.status === 'connected' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          ' Join the session '
-	        ),
-	        React.createElement(Join, { emit: this.props.emit })
-	      )
-	    );
-	  }
+	    displayName: 'Audience',
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                Display,
+	                { 'if': this.props.status === 'connected' },
+	                React.createElement(
+	                    Display,
+	                    { 'if': this.props.member.name },
+	                    React.createElement(
+	                        'h2',
+	                        null,
+	                        ' Welcome ',
+	                        this.props.member.name,
+	                        ' '
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        null,
+	                        ' Questions will appear here '
+	                    )
+	                ),
+	                React.createElement(
+	                    Display,
+	                    { 'if': !this.props.member.name },
+	                    React.createElement(
+	                        'h1',
+	                        null,
+	                        ' Join the session '
+	                    ),
+	                    React.createElement(Join, { emit: this.props.emit })
+	                )
+	            )
+	        );
+	    }
 	});
 
 	module.exports = Audience;
