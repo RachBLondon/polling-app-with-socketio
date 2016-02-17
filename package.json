@@ -1,0 +1,29 @@
+{
+  "name": "live-polling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-server.js",
+  "dependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.2",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4",
+    "react": "^0.14.7",
+    "webpack": "^1.12.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "prestart": "webpack",
+    "start": "node app-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RachBLondon/polling-app-with-socketio.git"
+  },
+  "author": "Rachel Black",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RachBLondon/polling-app-with-socketio/issues"
+  },
+  "homepage": "https://github.com/RachBLondon/polling-app-with-socketio#readme"
+}
