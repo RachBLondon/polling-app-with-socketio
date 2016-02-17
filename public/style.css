@@ -1,0 +1,38 @@
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+#connection-status{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  padding: 0;
+  margin: 20px 20px 20px 0px;
+  display: block;
+}
+#connection-status.connected{
+  background-color: green;
+}
+#connection-status.disconnected{
+  background-color: red;
+}
+div#not-found a {
+    display: block;
+    clear: both;
+}
+div#not-found a,
+form a {
+    position: relative;
+    left: 15px;
+    top: 10px;
+    padding-left: 20px;
+}
+form button{
+  margin: 1em 0;
+}
+form label{
+  font-size: 1.5em;
+  margin: 1em 0 0;
+}
