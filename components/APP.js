@@ -1,12 +1,15 @@
-var React = require('react');
-var io    = require('socket.io-client');
-var Header= require('./parts/Header');
+var React         = require('react');
+var Router        = require('react-router');
+var RouteHandler  = Router.RouteHandler;
+var io            = require('socket.io-client');
+var Header        = require('./parts/Header');
 
 var APP = React.createClass({
 
   getInitialState(){
     return {
-      status : 'disconnected'
+      status : 'disconnected',
+      title  : ''
     }
   },
 
@@ -14,6 +17,7 @@ var APP = React.createClass({
     this.socket = io('http://localhost:3000');
     this.socket.on('connect', this.connect);
     this.socket.on('disconnect', this.disconnect);
+    this.socket.on('welcome', this.welcome);
   },
 
   connect(){
@@ -24,10 +28,15 @@ var APP = React.createClass({
     this.setState({ status: 'disconnected'});
   },
 
+  welcome(serverState){
+    this.setState({ title: serverState.title });
+  },
+
   render(){
     return (
       <div>
-          <Header title="New Headers" status={this.state.status} />
+          <Header title={this.state.title} status={this.state.status} />
+          <RouteHandler />
       </div>
     );
   }
