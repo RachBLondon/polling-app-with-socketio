@@ -50,11 +50,13 @@
 	var Router = __webpack_require__(158);
 	var Route = Router.Route;
 	var DefaultRoute = Router.DefaultRoute;
+	var NotFoundRoute = Router.NotFoundRoute;
 
 	var APP = __webpack_require__(200);
 	var Audience = __webpack_require__(249);
 	var Speaker = __webpack_require__(250);
 	var Board = __webpack_require__(251);
+	var Whoops404 = __webpack_require__(252);
 
 	var routes = React.createElement(
 	  Route,
@@ -69,7 +71,8 @@
 	    Route,
 	    { name: 'board', path: 'board', handler: Board },
 	    ' '
-	  )
+	  ),
+	  React.createElement(NotFoundRoute, { handler: Whoops404 })
 	);
 
 	Router.run(routes, function (Handler) {
@@ -23211,7 +23214,8 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      status: 'disconnected',
-	      title: ''
+	      title: '',
+	      dance: 'yes please'
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -23234,7 +23238,7 @@
 	      'div',
 	      null,
 	      React.createElement(Header, { title: this.state.title, status: this.state.status }),
-	      React.createElement(RouteHandler, null)
+	      React.createElement(RouteHandler, this.state)
 	    );
 	  }
 	});
@@ -30719,7 +30723,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Audience '
+	      ' Audience  : ',
+	      this.props.title
 	    );
 	  }
 	});
@@ -30740,7 +30745,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Speaker '
+	      ' Speaker : ',
+	      this.props.status
 	    );
 	  }
 	});
@@ -30761,12 +30767,60 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Board '
+	      ' Board : ',
+	      this.props.dance
 	    );
 	  }
 	});
 
 	module.exports = Board;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(158);
+	var Link = Router.Link;
+
+	var Whoops404 = React.createClass({
+	  displayName: 'Whoops404',
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'not-found' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        ' Whoops... '
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        ' We cannot find the page that you have requested. Were upi looking for one of these?'
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: '/' },
+	        ' Join as Audience '
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: '/speaker' },
+	        ' Start the presentation '
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: '/board' },
+	        ' View the Board '
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Whoops404;
 
 /***/ }
 /******/ ]);
