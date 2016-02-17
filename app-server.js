@@ -20,7 +20,7 @@ io.sockets.on('connection', function(socket){
     console.log("disconnected:   sockets remaining", connections.length);
   });
 
-  socket.emit('welcome',{
+  socket.emit('welcome', {
     title: title
   });
 
