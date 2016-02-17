@@ -23211,7 +23211,8 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      status: 'disconnected',
-	      title: ''
+	      title: '',
+	      dance: 'yes please'
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -23234,7 +23235,7 @@
 	      'div',
 	      null,
 	      React.createElement(Header, { title: this.state.title, status: this.state.status }),
-	      React.createElement(RouteHandler, null)
+	      React.createElement(RouteHandler, this.state)
 	    );
 	  }
 	});
@@ -30719,7 +30720,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Audience '
+	      ' Audience  : ',
+	      this.props.title
 	    );
 	  }
 	});
@@ -30740,7 +30742,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Speaker '
+	      ' Speaker : ',
+	      this.props.status
 	    );
 	  }
 	});
@@ -30761,7 +30764,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      ' Board '
+	      ' Board : ',
+	      this.props.dance
 	    );
 	  }
 	});
