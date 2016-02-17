@@ -1,9 +1,10 @@
 var express = require('express');
-
 var app = express();
 
-var connections = [];
-var title = "Untitled Presentation";
+var connections   = [];
+var title         = "Untitled Presentation";
+var audience      = [];
+
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
@@ -27,6 +28,8 @@ io.sockets.on('connection', function(socket){
       };
 
       this.emit('joined',  newMember);
+      audience.push(newMember);
+      io.sockets.emit('audience', audience);
       console.log("Audience Joined as ", payload.name);
   });
 
