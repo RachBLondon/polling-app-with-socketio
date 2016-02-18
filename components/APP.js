@@ -8,9 +8,10 @@ var APP = React.createClass({
 
   getInitialState(){
     return {
-      status : 'disconnected',
-      title  : '',
-      dance  : 'yes please'
+      status  : 'disconnected',
+      title   : '',
+      member  : {},
+      audience: []
     }
   },
 
@@ -19,9 +20,21 @@ var APP = React.createClass({
     this.socket.on('connect', this.connect);
     this.socket.on('disconnect', this.disconnect);
     this.socket.on('welcome', this.welcome);
+    this.socket.on('joined', this.joined);
+    this.socket.on('audience', this.updateAudience);
+  },
+
+  emit(eventName, payload){
+    this.socket.emit(eventName, payload);
   },
 
   connect(){
+    var member = (sessionStorage.member) ? JSON.parse(sessionStorage.member): null;
+
+    if (member){
+      this.emit('join', member);
+    }
+
     this.setState({ status: 'connected'});
   },
 
@@ -33,11 +46,20 @@ var APP = React.createClass({
     this.setState({ title: serverState.title });
   },
 
+  joined(member){
+     sessionStorage.member = JSON.stringify(member);
+     this.setState({ member: member});
+  },
+
+  updateAudience(newAudience){
+    this.setState({ audience: newAudience});
+  },
+
   render(){
     return (
       <div>
           <Header title={this.state.title} status={this.state.status} />
-          <RouteHandler {...this.state} />
+          <RouteHandler emit={this.emit} {...this.state} />
       </div>
     );
   }
