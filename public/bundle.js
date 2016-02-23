@@ -21760,7 +21760,8 @@
 	    this.socket.on('welcome', this.updateState);
 	    this.socket.on('joined', this.joined);
 	    this.socket.on('audience', this.updateAudience);
-	    this.socket.on('start', this.updateState);
+	    this.socket.on('start', this.start);
+	    this.socket.on('end', this.updateState);
 	  },
 	  emit: function emit(eventName, payload) {
 	    this.socket.emit(eventName, payload);
@@ -21768,14 +21769,20 @@
 	  connect: function connect() {
 	    var member = sessionStorage.member ? JSON.parse(sessionStorage.member) : null;
 
-	    if (member) {
+	    if (member && member.type === 'audience') {
 	      this.emit('join', member);
+	    } else if (member && member.type === 'speaker') {
+	      this.emit('start', { name: member.name, title: sessionStorage.title });
 	    }
 
 	    this.setState({ status: 'connected' });
 	  },
 	  disconnect: function disconnect() {
-	    this.setState({ status: 'disconnected' });
+	    this.setState({
+	      status: 'disconnected',
+	      title: 'disconnected',
+	      speaker: ''
+	    });
 	  },
 	  updateState: function updateState(serverState) {
 	    this.setState(serverState);
@@ -21783,6 +21790,12 @@
 	  joined: function joined(member) {
 	    sessionStorage.member = JSON.stringify(member);
 	    this.setState({ member: member });
+	  },
+	  start: function start(presentation) {
+	    if (this.state.member.type === 'speaker') {
+	      sessionStorage.title = presentation.title;
+	    }
+	    this.setState(presentation);
 	  },
 	  updateAudience: function updateAudience(newAudience) {
 	    this.setState({ audience: newAudience });
