@@ -40,7 +40,7 @@ io.sockets.on('connection', function(socket){
       var newMember = {
         id: this.id,
         name: payload.name,
-        type: 'member'
+        type: 'audience'
       };
 
       this.emit('joined',  newMember);
