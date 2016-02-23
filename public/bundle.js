@@ -55,8 +55,8 @@
 	var APP = __webpack_require__(199);
 	var Audience = __webpack_require__(248);
 	var Speaker = __webpack_require__(251);
-	var Board = __webpack_require__(253);
-	var Whoops404 = __webpack_require__(254);
+	var Board = __webpack_require__(254);
+	var Whoops404 = __webpack_require__(255);
 
 	var routes = React.createElement(
 	  Route,
@@ -29413,6 +29413,7 @@
 	var React = __webpack_require__(1);
 	var Display = __webpack_require__(249);
 	var JoinSpeaker = __webpack_require__(252);
+	var Attendance = __webpack_require__(253);
 
 	var Speaker = React.createClass({
 	  displayName: 'Speaker',
@@ -29431,11 +29432,7 @@
 	            null,
 	            ' Questions '
 	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            ' Attendance '
-	          )
+	          React.createElement(Attendance, { audience: this.props.audience })
 	        ),
 	        React.createElement(
 	          Display,
@@ -29506,6 +29503,76 @@
 /* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var Attendance = React.createClass({
+	  displayName: "Attendance",
+	  addMemberRow: function addMemberRow(member, i) {
+	    return React.createElement(
+	      "tr",
+	      { key: i },
+	      React.createElement(
+	        "td",
+	        null,
+	        member.name
+	      ),
+	      React.createElement(
+	        "td",
+	        null,
+	        member.id
+	      )
+	    );
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h2",
+	        null,
+	        " Attendance - ",
+	        this.props.audience.length,
+	        " members "
+	      ),
+	      React.createElement(
+	        "table",
+	        { className: "table table-striped" },
+	        React.createElement(
+	          "thead",
+	          null,
+	          React.createElement(
+	            "tr",
+	            null,
+	            React.createElement(
+	              "th",
+	              null,
+	              " Audience Member "
+	            ),
+	            React.createElement(
+	              "th",
+	              null,
+	              " Socket ID "
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          "tbody",
+	          null,
+	          this.props.audience.map(this.addMemberRow)
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Attendance;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var React = __webpack_require__(1);
@@ -29525,7 +29592,7 @@
 	module.exports = Board;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
