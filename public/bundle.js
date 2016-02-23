@@ -21750,7 +21750,7 @@
 	      title: '',
 	      member: {},
 	      audience: [],
-	      speaker: ""
+	      speaker: {}
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {

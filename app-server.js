@@ -48,6 +48,7 @@ io.sockets.on('connection', function(socket){
     speaker.name = payload.name;
     speaker.id   = this.id;
     speaker.type = 'speaker';
+    title        = payload.title;
     this.emit('joined', speaker);
     io.sockets.emit('start',{title: title, speaker:speaker.name});
     console.log("Presentation started: ", title, speaker.name);
