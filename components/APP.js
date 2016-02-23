@@ -12,7 +12,7 @@ var APP = React.createClass({
       title   : '',
       member  : {},
       audience: [],
-      speaker : {}
+      speaker : ''
     }
   },
 
@@ -23,7 +23,8 @@ var APP = React.createClass({
     this.socket.on('welcome', this.updateState);
     this.socket.on('joined', this.joined);
     this.socket.on('audience', this.updateAudience);
-    this.socket.on('start', this.updateState);
+    this.socket.on('start', this.start);
+    this.socket.on('end', this.updateState);
   },
 
   emit(eventName, payload){
@@ -33,15 +34,21 @@ var APP = React.createClass({
   connect(){
     var member = (sessionStorage.member) ? JSON.parse(sessionStorage.member): null;
 
-    if (member){
+    if (member && member.type ==='audience'){
       this.emit('join', member);
+    } else if (member && member.type === 'speaker'){
+      this.emit('start', {name: member.name, title : sessionStorage.title});
     }
 
     this.setState({ status: 'connected'});
   },
 
   disconnect(){
-    this.setState({ status: 'disconnected'});
+    this.setState({
+      status: 'disconnected',
+      title:   'disconnected',
+      speaker: ''
+    });
   },
 
   updateState(serverState){
@@ -51,6 +58,13 @@ var APP = React.createClass({
   joined(member){
      sessionStorage.member = JSON.stringify(member);
      this.setState({ member: member});
+  },
+
+  start(presentation){
+     if( this.state.member.type === 'speaker'){
+       sessionStorage.title = presentation.title;
+     }
+     this.setState(presentation);
   },
 
   updateAudience(newAudience){
