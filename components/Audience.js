@@ -19,7 +19,7 @@ var Audience = React.createClass({
                  <Display if={this.props.currentQuestion}>
                       <h2> {this.props.currentQuestion.q}</h2>
                  </Display>
-                 
+
              </Display>
 
              <Display if={!this.props.member.name}>
