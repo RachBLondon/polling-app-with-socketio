@@ -6,6 +6,7 @@ var connections   = [];
 var title         = "Untitled Presentation";
 var audience      = [];
 var speaker       = {};
+var questions     = require('./app-questions');
 
 
 app.use(express.static('./public'));
@@ -62,7 +63,8 @@ io.sockets.on('connection', function(socket){
   socket.emit('welcome', {
     title: title,
     audience: audience,
-    speaker : speaker.name
+    speaker : speaker.name,
+    questions: questions
   });
 
   connections.push(socket);
