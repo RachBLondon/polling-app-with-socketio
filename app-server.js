@@ -2,11 +2,12 @@ var express = require('express');
 var app = express();
 var _   = require('underscore')
 
-var connections   = [];
-var title         = "Untitled Presentation";
-var audience      = [];
-var speaker       = {};
-var questions     = require('./app-questions');
+var connections     = [];
+var title           = "Untitled Presentation";
+var audience        = [];
+var speaker         = {};
+var questions       = require('./app-questions');
+var currentQuestion = false;
 
 
 app.use(express.static('./public'));
@@ -60,11 +61,18 @@ io.sockets.on('connection', function(socket){
     console.log("Presentation started: ", title, speaker.name);
   });
 
+  socket.on('ask', function(question){
+    currentQuestion = question;
+    io.sockets.emit('ask', currentQuestion);
+    console.log("question Asked: '%s'", question.q);
+  });
+
   socket.emit('welcome', {
     title: title,
     audience: audience,
     speaker : speaker.name,
-    questions: questions
+    questions: questions,
+    currentQuestion: currentQuestion
   });
 
   connections.push(socket);

@@ -2,10 +2,14 @@ var React = require('react');
 
 var Questions = React.createClass({
 
+  ask(question){
+    this.props.emit('ask', question);
+  },
+  
   addQuestion(question, i){
     return(
       <div key={i} className="col-xs-12 col-sm-6 col-md-3">
-        <span>{question.q}</span>
+        <button onClick={this.ask.bind(null, question)}> {question.q} </button>
       </div>
     );
   },
