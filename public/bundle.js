@@ -54,9 +54,9 @@
 
 	var APP = __webpack_require__(199);
 	var Audience = __webpack_require__(248);
-	var Speaker = __webpack_require__(251);
-	var Board = __webpack_require__(255);
-	var Whoops404 = __webpack_require__(256);
+	var Speaker = __webpack_require__(252);
+	var Board = __webpack_require__(256);
+	var Whoops404 = __webpack_require__(257);
 
 	var routes = React.createElement(
 	  Route,
@@ -29296,6 +29296,7 @@
 	var React = __webpack_require__(1);
 	var Display = __webpack_require__(249);
 	var Join = __webpack_require__(250);
+	var Ask = __webpack_require__(251);
 
 	var Audience = React.createClass({
 	    displayName: 'Audience',
@@ -29334,12 +29335,7 @@
 	                    React.createElement(
 	                        Display,
 	                        { 'if': this.props.currentQuestion },
-	                        React.createElement(
-	                            'h2',
-	                            null,
-	                            ' ',
-	                            this.props.currentQuestion.q
-	                        )
+	                        React.createElement(Ask, { question: this.props.currentQuestion })
 	                    )
 	                ),
 	                React.createElement(
@@ -29431,10 +29427,68 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+
+	var Ask = React.createClass({
+	  displayName: 'Ask',
+	  getInitialState: function getInitialState() {
+	    return {
+	      choices: []
+	    };
+	  },
+	  componentWillMount: function componentWillMount() {
+	    this.setUpChoices();
+	  },
+	  componentWillRecieveProps: function componentWillRecieveProps() {
+	    this.setUpChoices();
+	  },
+	  setUpChoices: function setUpChoices() {
+	    var choices = Object.keys(this.props.question);
+	    choices.shift();
+	    this.setState({ choices: choices });
+	  },
+	  addChoiceButton: function addChoiceButton(choice, i) {
+	    var buttonTypes = ['primary', 'success', 'warning', 'danger'];
+	    var buttonClass = "col-xs-12 col-sm-6 btn btn-" + buttonTypes[i];
+	    return React.createElement(
+	      'button',
+	      { key: i, className: buttonClass },
+	      choice,
+	      ':',
+	      this.props.question[choice]
+	    );
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'currentQuestion' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        ' ',
+	        this.props.question.q
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        this.state.choices.map(this.addChoiceButton)
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Ask;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
 	var Display = __webpack_require__(249);
-	var JoinSpeaker = __webpack_require__(252);
-	var Attendance = __webpack_require__(253);
-	var Questions = __webpack_require__(254);
+	var JoinSpeaker = __webpack_require__(253);
+	var Attendance = __webpack_require__(254);
+	var Questions = __webpack_require__(255);
 
 	var Speaker = React.createClass({
 	  displayName: 'Speaker',
@@ -29469,7 +29523,7 @@
 	module.exports = Speaker;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29517,7 +29571,7 @@
 	module.exports = JoinSpeaker;
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29587,7 +29641,7 @@
 	module.exports = Attendance;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29629,7 +29683,7 @@
 	module.exports = Questions;
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29651,7 +29705,7 @@
 	module.exports = Board;
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
